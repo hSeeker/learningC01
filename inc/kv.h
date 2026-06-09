@@ -12,8 +12,8 @@ typedef struct {
   size_t capacity;
   size_t count;
   kv_entry_t *entries;
-} kv_table;
+} kv_t;
 
-kv_table *kv_init(size_t capacity);
+kv_t *kv_init(size_t capacity);
 
 #endif
