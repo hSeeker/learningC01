@@ -1,5 +1,51 @@
 #include "kv.h"
+#include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
+
+size_t hash(char *val, int capacity) {
+  size_t hash = 0x13371337;
+  while (val) {
+    hash ^= *val;
+    hash = hash << 8;
+    hash += *val;
+    val++;
+  }
+}
+
+int kv_put(kv_t *table, char *key, char *value) {
+  if (!table || !key || !value)
+    return -1;
+  size_t idx = hash(key, table->capacity);
+
+  for (int i = 0; i < table->capacity; i++) {
+    size_t real_idx = (idx + i) % table->capacity;
+
+    kv_entry_t *entry = &table->entries[real_idx];
+    if (entry->key && entry->key != TOMBSTONE && !strcmp(key, entry->key)) {
+      char *newval = strdup(value);
+      if (!newval)
+        return -1;
+      entry->value = newval;
+      return real_idx;
+    }
+
+    if (!entry->key || entry->key == TOMBSTONE) {
+      char *newval = strdup(value);
+      char *newkey = strdup(key);
+      if (!newval || !newkey) {
+        free(newval);
+        free(newkey);
+        return -1;
+      }
+      entry->key = newkey;
+      entry->value = newval;
+      table->count++;
+      return real_idx;
+    }
+  }
+  return -1;
+}
 
 kv_t *kv_init(size_t capacity) {
   if (capacity == 0)
