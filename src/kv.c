@@ -21,7 +21,7 @@ int kv_put(kv_t *table, char *key, char *value) {
     return -1;
   size_t idx = hash(key, table->capacity);
 
-  for (int i = 0; i < table->capacity; i++) {
+  for (int i = 0; i < table->capacity - 1; i++) {
     size_t real_idx = (idx + i) % table->capacity;
 
     kv_entry_t *entry = &table->entries[real_idx];
