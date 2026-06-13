@@ -4,13 +4,14 @@
 #include <string.h>
 
 size_t hash(char *val, int capacity) {
-  size_t hash = 0x13371337;
-  while (val) {
+  size_t hash = 0x13371337deadbeef;
+  while (*val) {
     hash ^= *val;
     hash = hash << 8;
     hash += *val;
     val++;
   }
+  return hash % capacity;
 }
 
 int kv_put(kv_t *table, char *key, char *value) {
