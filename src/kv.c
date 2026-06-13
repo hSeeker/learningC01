@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TOMBSTONE 0x1
+
 size_t hash(char *val, int capacity) {
   size_t hash = 0x13371337deadbeef;
   while (*val) {
@@ -23,6 +25,7 @@ int kv_put(kv_t *table, char *key, char *value) {
     size_t real_idx = (idx + i) % table->capacity;
 
     kv_entry_t *entry = &table->entries[real_idx];
+
     if (entry->key && entry->key != TOMBSTONE && !strcmp(key, entry->key)) {
       char *newval = strdup(value);
       if (!newval)
@@ -45,7 +48,7 @@ int kv_put(kv_t *table, char *key, char *value) {
       return real_idx;
     }
   }
-  return -1;
+  return -2;
 }
 
 kv_t *kv_init(size_t capacity) {
