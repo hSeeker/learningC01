@@ -24,7 +24,7 @@ int kv_put(kv_t *table, char *key, char *value) {
   for (int i = 0; i < table->capacity - 1; i++) {
     size_t real_idx = (idx + i) % table->capacity;
 
-    kv_entry_t *entry = &table->entries[real_idx];
+    kv_entry_t *entry = table->entries[real_idx];
 
     if (entry->key && entry->key != TOMBSTONE && !strcmp(key, entry->key)) {
       char *newval = strdup(value);
