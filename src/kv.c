@@ -16,15 +16,15 @@ size_t hash(char *val, int capacity) {
   return hash % capacity;
 }
 
-int kv_put(kv_t *table, char *key, char *value) {
-  if (!table || !key || !value)
+int kv_put(kv_t *db, char *key, char *value) {
+  if (!db || !key || !value)
     return -1;
-  size_t idx = hash(key, table->capacity);
+  size_t idx = hash(key, db->capacity);
 
-  for (int i = 0; i < table->capacity - 1; i++) {
-    size_t real_idx = (idx + i) % table->capacity;
+  for (int i = 0; i < db->capacity - 1; i++) {
+    size_t real_idx = (idx + i) % db->capacity;
 
-    kv_entry_t *entry = &table->entries[real_idx];
+    kv_entry_t *entry = &db->entries[real_idx];
 
     if (entry->key && entry->key != (void *)TOMBSTONE &&
         !strcmp(key, entry->key)) {
@@ -45,7 +45,7 @@ int kv_put(kv_t *table, char *key, char *value) {
       }
       entry->key = newkey;
       entry->value = newval;
-      table->count++;
+      db->count++;
       return real_idx;
     }
   }
