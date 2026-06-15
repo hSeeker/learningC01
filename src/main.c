@@ -12,6 +12,10 @@ int main() {
     if (table->entries[i].key)
       printf("[%d]: %s, %s\n", i, table->entries[i].key,
              table->entries[i].value);
+  char *val1 = kv_get(table, "hehe");
+  char *val2 = kv_get(table, "lala");
+  char *val3 = kv_get(table, "huh");
+  printf("%s, %s, %s\n", val1, val2, val3);
   free(table);
   return 0;
 }
