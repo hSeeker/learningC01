@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TOMBSTONE ((char *)0x1)
+
 size_t hash(char *val, int capacity) {
   size_t hash = 0x13371337deadbeef;
   while (*val) {
