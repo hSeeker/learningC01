@@ -23,6 +23,5 @@ int main() {
   table = NULL;
   val1 = kv_get(table, "hehe");
   printf("%s", val1);
-  printf("%s, %u", val1, table);
   return 0;
 }

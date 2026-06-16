@@ -3,10 +3,10 @@ SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 $(TARGET): $(OBJ)
-	gcc -g $^ -o $@
+	gcc $^ -o $@
 
 obj/%.o: src/%.c
-	gcc -g -c $^ -o $@ -Iinc
+	gcc -c $^ -o $@ -Iinc
 
 clean:
 	rm -f $(TARGET)
